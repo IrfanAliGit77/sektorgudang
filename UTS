@@ -1,0 +1,70 @@
+produk = {
+    'Produk' : ['Herbal', 'Obat', 'Bahan Herbal'],
+    'Herbal' : ['Jamu Tradisional','Makanan','Minuman', 'Obat Herbal', 'Suplemen & Vitamin'],
+    'Obat' : ['Ethical/Prescription','OTC'],
+    'Bahan Herbal' : ['Bubuk'],
+    'Jamu Tradisional' : ['Jamu Batuk','Jamu Bersalin', 'Jamu Encok', 'Jamu Gemuk Sehat', 'Jamu Klingsir'],
+    'Makanan' : ['Permen Jahe', 'Permen Kunyit', 'Permen Tolak Angin', 'Permen Tolak Angin Bebas Gula'],
+    'Minuman' : ['Susu Jahe', 'Kopi Jahe', 'Kunyit Asam', 'ESTE EMJE', 'Minuman Madu'],
+    'Obat Herbal' : ['Tolak Linu', 'Tolak Angin Cair', 'Tolak Angin Flu', 'Tolak Angin Care', 'Sari Kunyit Capsule'],
+    'Suplemen & Vitamin' : ['KukuBima Ener-G', 'C-1000', 'Bilberry Carrot', 'Vitamin D3 400', 'Fatraper'],
+    'Ethical/Prescription' : ['Bloxer', 'Licoprox', 'Barloson-N Cream', 'Berlicort Cream', 'Licodium Kaplet'],
+    'OTC' : ['Sido Kliin', 'Daktazol Cream', 'Imuco Sirup', 'Anabion Sirup', 'Berlosid Tablet'],
+    'Bubuk' : ['Brotowali', 'Daun Kelor', 'Jati Belanda', 'Jahe', 'Kencur']
+    }
+
+def ancestors(genealogy, person):
+    list_of_ancestors=[]
+    
+    if person in genealogy:
+        list_of_ancestors=genealogy[person]
+        for e in genealogy[person]:
+            for i in ancestors(genealogy, e):
+                if i not in list_of_ancestors:
+                    list_of_ancestors+=ancestors(genealogy,e)
+    else:
+        list_of_ancestors+=[]
+        
+    return list_of_ancestors
+
+# 1st Printing
+print ('Melihat Data Obat : ')
+print (ancestors(produk, 'Obat'))
+print ('')
+#>>> ['Anne Isabella Milbanke', 'George Gordon Byron',
+#    'Catherine Gordon', 'Captain John Byron']
+
+# 2nd Printing
+print ('Melihat Data Makanan : ')
+print (ancestors(produk, 'Makanan'))
+print ('')
+#>>> ['Anne Isabella Blunt', 'Wilfrid Scawen Blunt', 'Agusta Ada King'
+#    'William King-Noel','Anne Isabella Milbanke', 'George Gordon Byron',
+#    'Catherine Gordon','Captain John Byron']
+
+# 3rd Printing
+print ('Melihat Data Produk : ')
+print (ancestors(produk, 'Produk'))
+print ('')
+#>>> []
+
+def recursive_dfs(produk, source,path = []):
+
+       if source not in path:
+
+           path.append(source)
+
+           if source not in produk:
+               # leaf node, backtrack
+               return path
+
+           for neighbour in produk[source]:
+
+               path = recursive_dfs(produk, neighbour, path)
+
+
+       return path
+path = recursive_dfs(produk, 'Minuman')
+
+print ('Pencarian Minuman Menggunakan Metode DFS :')
+print(" ".join(path))
